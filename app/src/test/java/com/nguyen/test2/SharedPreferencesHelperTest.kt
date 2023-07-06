@@ -3,6 +3,7 @@ package com.nguyen.test2
 import android.content.SharedPreferences
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -15,9 +16,9 @@ import java.util.Calendar
  */
 @RunWith(MockitoJUnitRunner::class)
 class SharedPreferencesHelperTest {
-    private val sharedPreferenceEntry = SharedPreferenceEntry(TEST_NAME, TEST_DATE_OF_BIRTH, TEST_EMAIL)
-    private val goodPreferencesHelper = createMockSharedPreference()
-    private val brokenPreferencesHelper = createBrokenMockSharedPreference()
+    private lateinit var sharedPreferenceEntry: SharedPreferenceEntry
+    private lateinit var goodPreferencesHelper: SharedPreferencesHelper
+    private lateinit var brokenPreferencesHelper: SharedPreferencesHelper
 
     @Mock
     var goodMockPreferences: SharedPreferences? = null
@@ -27,6 +28,18 @@ class SharedPreferencesHelperTest {
     var goodMockEditor: SharedPreferences.Editor? = null
     @Mock
     var brokenMockEditor: SharedPreferences.Editor? = null
+
+    @Before
+    fun initMocks() {
+        // Create SharedPreferenceEntry to persist.
+        sharedPreferenceEntry = SharedPreferenceEntry(TEST_NAME, TEST_DATE_OF_BIRTH, TEST_EMAIL)
+
+        // Create a mocked SharedPreferences.
+        goodPreferencesHelper = createGoodMockSharedPreference()
+
+        // Create a mocked SharedPreferences that fails at saving data.
+        brokenPreferencesHelper = createBrokenMockSharedPreference()
+    }
 
     @Test
     fun sharedPreferencesHelper_SaveAndReadPersonalInformation() {
@@ -71,7 +84,7 @@ class SharedPreferencesHelperTest {
     /**
      * Creates a mocked SharedPreferences.
      */
-    private fun createMockSharedPreference(): SharedPreferencesHelper {
+    private fun createGoodMockSharedPreference(): SharedPreferencesHelper {
         // Mocking reading the SharedPreferences as if mMockSharedPreferences was previously written correctly.
         `when`(goodMockPreferences?.getString(eq(SharedPreferencesHelper.KEY_NAME), anyString()))
             .thenReturn(sharedPreferenceEntry.name)

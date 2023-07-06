@@ -2,4 +2,3 @@ source: https://github.com/android/testing-samples/tree/main/ui/espresso/BasicSa
 
 unit tests
 with Mockito
-SharedPreferencesHelperTest failed 2 tests
