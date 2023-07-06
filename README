@@ -1,0 +1,5 @@
+source: https://github.com/android/testing-samples/tree/main/ui/espresso/BasicSample
+
+unit tests
+with Mockito
+SharedPreferencesHelperTest failed 2 tests
